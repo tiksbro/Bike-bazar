@@ -1,9 +1,12 @@
 import { NavLink, Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 const navLinkClass = ({ isActive }) =>
   isActive ? 'text-white font-semibold' : 'text-[#C9CCD1] hover:text-white transition'
 
 function Navbar() {
+  const { user } = useAuth()
+
   return (
     <header className="sticky top-0 z-40 bg-ink">
       <div className="max-w-[1440px] mx-auto px-8">
@@ -37,10 +40,24 @@ function Navbar() {
           </nav>
 
           <Link
-            to="/favorites"
+            to="/dashboard"
             className="hidden md:inline-flex text-[14.5px] font-medium text-[#C9CCD1] hover:text-white transition ml-auto"
           >
+            Dashboard
+          </Link>
+
+          <Link
+            to="/favorites"
+            className="hidden md:inline-flex text-[14.5px] font-medium text-[#C9CCD1] hover:text-white transition"
+          >
             ♡ Favorites
+          </Link>
+
+          <Link
+            to={user ? '/profile' : '/login'}
+            className="hidden md:inline-flex text-[14.5px] font-medium text-[#C9CCD1] hover:text-white transition"
+          >
+            {user ? `Hi, ${user.name}` : 'Log in'}
           </Link>
 
           <Link

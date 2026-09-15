@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import VehicleCard, { VehicleArt } from '../components/VehicleCard'
 import { getVehicleBySlug, getSimilar } from '../services/vehicleService'
@@ -82,6 +83,7 @@ function VehicleDetail() {
             </p>
             <p className="text-sm text-textmuted mt-0.5">{vehicle.location}</p>
           </div>
+          <ReportListingBox />
         </div>
       </div>
 
@@ -119,6 +121,68 @@ function Spec({ label, value }) {
       <p className="text-xs text-textfaint">{label}</p>
       <p className="font-semibold text-sm mt-0.5">{value}</p>
     </div>
+  )
+}
+function ReportListingBox() {
+  const [open, setOpen] = useState(false)
+  const [reason, setReason] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (!reason) return
+    setSubmitted(true)
+  }
+
+  if (submitted) {
+    return (
+      <p className="text-sm text-success font-semibold mt-4">
+        ✓ Thanks — this listing has been reported for review.
+      </p>
+    )
+  }
+
+  if (!open) {
+    return (
+      <button onClick={() => setOpen(true)} className="text-sm text-textfaint hover:text-textmuted mt-4 underline">
+        Report this listing
+      </button>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-4 border border-bordercol rounded-cardsm p-4">
+      <label className="text-sm font-semibold block mb-1.5">Why are you reporting this listing?</label>
+      <select
+        value={reason}
+        onChange={(e) => setReason(e.target.value)}
+        className="w-full border border-bordercol rounded-ctl px-3 py-2 text-sm"
+      >
+        <option value="">Select a reason</option>
+        <option value="fake">Fake listing</option>
+        <option value="scam">Scam</option>
+        <option value="incorrect">Incorrect information</option>
+        <option value="duplicate">Duplicate listing</option>
+        <option value="sold">Already sold</option>
+        <option value="other">Other</option>
+      </select>
+      <div className="flex gap-2 mt-3">
+        <button
+          type="submit"
+          disabled={!reason}
+          className="bg-ink text-white text-sm font-semibold px-4 py-2 rounded-btn disabled:opacity-40"
+        >
+          Submit Report
+        </button>
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          className="text-sm font-semibold px-4 py-2 rounded-btn border border-bordercol"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
   )
 }
 
