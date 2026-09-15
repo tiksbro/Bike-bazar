@@ -1,5 +1,6 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useFavorites } from '../context/FavoritesContext'
+import { useCompare } from '../context/CompareContext'
 
 const artBackgrounds = {
   orange: 'linear-gradient(160deg,#FDECE0,#F6C79B)',
@@ -7,6 +8,7 @@ const artBackgrounds = {
   graphite: 'linear-gradient(160deg,#EDEEF0,#C7CACF)',
   teal: 'linear-gradient(160deg,#E1F4EE,#A9DCCB)',
 }
+
 const priceBadgeStyles = {
   good: { label: 'Good Price', color: '#12805C', bg: '#E3F3EC' },
   fair: { label: 'Fair Price', color: '#8A5A12', bg: '#FBF0DA' },
@@ -14,11 +16,13 @@ const priceBadgeStyles = {
 }
 
 function VehicleCard({ vehicle, variant = 'result' }) {
-  const [isFavorited, setIsFavorited] = useState(false)
+  const { isFavorite, toggleFavorite } = useFavorites()
+  const { isComparing, toggleCompare } = useCompare()
 
-}
+  const priceBadge = priceBadgeStyles[vehicle.priceInsight]
+
   return (
-    <article className="relative bg-white border border-bordercol rounded-card overflow-hidden flex flex-col">
+    <article className="relative bg-white border border-bordercol rounded-card overflow-hidden flex flex-col transition hover:border-borderstrong hover:shadow-[0_8px_24px_rgba(14,17,22,0.08)] hover:-translate-y-0.5">
       <div
         className="relative h-[168px]"
         style={{ background: artBackgrounds[vehicle.artColor] }}
@@ -32,16 +36,24 @@ function VehicleCard({ vehicle, variant = 'result' }) {
         )}
 
         <button
-          onClick={() => setIsFavorited(!isFavorited)}
+          onClick={() => toggleFavorite(vehicle.id)}
           className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/90 flex items-center justify-center"
           aria-label="Favorite"
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill={isFavorited ? '#0E1116' : 'none'} stroke="#0E1116" strokeWidth="1.8">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill={isFavorite(vehicle.id) ? '#0E1116' : 'none'}
+            stroke="#0E1116"
+            strokeWidth="1.8"
+          >
             <path d="M20.8 4.6c-1.8-1.5-4.5-1.3-6.1.4L12 7.7l-2.7-2.7c-1.6-1.7-4.3-1.9-6.1-.4-2 1.7-2.1 4.8-.3 6.6l8.4 8.6a1 1 0 0 0 1.4 0l8.4-8.6c1.8-1.8 1.7-4.9-.3-6.6z" />
           </svg>
         </button>
       </div>
-            <div className="p-4 flex-1 flex flex-col gap-[5px]">
+
+      <div className="p-4 flex-1 flex flex-col gap-[5px]">
         <p className="font-display font-semibold text-[16.5px]">
           {vehicle.brand} {vehicle.model}
         </p>
@@ -58,7 +70,13 @@ function VehicleCard({ vehicle, variant = 'result' }) {
 
         <div className="flex items-center justify-between mt-2 pt-[10px] border-t border-bordersoft">
           <label className="flex items-center gap-1.5 text-xs text-textmuted">
-            <input type="checkbox" className="rounded" /> Compare
+            <input
+              type="checkbox"
+              checked={isComparing(vehicle.id)}
+              onChange={() => toggleCompare(vehicle.id)}
+              className="rounded"
+            />{' '}
+            Compare
           </label>
           <span
             className="text-[11px] font-bold px-2 py-0.5 rounded-badge"
@@ -68,15 +86,17 @@ function VehicleCard({ vehicle, variant = 'result' }) {
           </span>
         </div>
       </div>
-            <Link
+
+      <Link
         to={`/vehicle/${vehicle.slug}`}
         className="absolute inset-0 -z-10"
         aria-label={`View ${vehicle.brand} ${vehicle.model}`}
       />
     </article>
   )
+}
 
-function VehicleArt({ type }) {
+export function VehicleArt({ type }) {
   if (type === 'scooter') {
     return (
       <svg viewBox="0 0 200 120" className="absolute inset-0 w-full h-full">

@@ -1,11 +1,8 @@
 import { Outlet } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import CompareBar from '../components/CompareBar'
 
-// This layout wraps every "normal" page (Home, Browse, Vehicle Detail, etc.)
-// <Outlet /> is where React Router puts whichever page component matches
-// the current URL. Navbar and Footer stay the same on every page, so we
-// only write them once, here.
 function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -14,6 +11,7 @@ function MainLayout() {
         <Outlet />
       </main>
       <Footer />
+      <CompareBar />
     </div>
   )
 }

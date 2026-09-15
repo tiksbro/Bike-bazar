@@ -1,8 +1,5 @@
 import { NavLink, Link } from 'react-router-dom'
 
-// NavLink is like a normal <Link>, but it knows when its own page is
-// the current page. We use that to make "Buy Vehicle" turn white/bold
-// when we're on the home page.
 const navLinkClass = ({ isActive }) =>
   isActive ? 'text-white font-semibold' : 'text-[#C9CCD1] hover:text-white transition'
 
@@ -40,8 +37,15 @@ function Navbar() {
           </nav>
 
           <Link
+            to="/favorites"
+            className="hidden md:inline-flex text-[14.5px] font-medium text-[#C9CCD1] hover:text-white transition ml-auto"
+          >
+            ♡ Favorites
+          </Link>
+
+          <Link
             to="/sell"
-            className="ml-auto inline-flex items-center bg-accent hover:bg-accenthover transition text-white font-semibold text-sm rounded-btn px-[18px] py-[11px] whitespace-nowrap"
+            className="inline-flex items-center bg-accent hover:bg-accenthover transition text-white font-semibold text-sm rounded-btn px-[18px] py-[11px] whitespace-nowrap"
           >
             Sell Your Vehicle
           </Link>
