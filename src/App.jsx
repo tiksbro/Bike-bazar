@@ -18,6 +18,7 @@ import Guides from './pages/Guides'
 import Login from './pages/Login'
 import Profile from './pages/Profile'
 import NotFound from './pages/NotFound'
+import Admin from './pages/Admin'
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/guides" element={<Guides />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/admin" element={<Admin />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

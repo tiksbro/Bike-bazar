@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import VehicleCard, { VehicleArt } from '../components/VehicleCard'
 import { getVehicleBySlug, getSimilar } from '../services/vehicleService'
-
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 const artBackgrounds = {
   orange: 'linear-gradient(160deg,#FDECE0,#F6C79B)',
   blue: 'linear-gradient(160deg,#E7EDFB,#B9C8F0)',
@@ -31,6 +31,7 @@ function VehicleDetail() {
       </div>
     )
   }
+  useDocumentTitle(vehicle ? `${vehicle.brand} ${vehicle.model}` : 'Vehicle Not Found')
 
   const priceBadge = priceBadgeStyles[vehicle.priceInsight]
   const similar = getSimilar(vehicle)

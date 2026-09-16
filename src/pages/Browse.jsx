@@ -2,11 +2,14 @@ import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import VehicleCard from '../components/VehicleCard'
 import { listVehicles } from '../services/vehicleService'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 
 const brands = ['Yamaha', 'Honda', 'Bajaj', 'TVS', 'Royal Enfield', 'KTM', 'Hero', 'Suzuki', 'NIU', 'Yezdi']
 const cities = ['Kathmandu', 'Pokhara', 'Biratnagar', 'Dharan', 'Bharatpur', 'Butwal', 'Itahari', 'Janakpur', 'Nepalgunj']
 
 function Browse() {
+  useDocumentTitle('Browse Vehicles')
+
   const [searchParams] = useSearchParams()
 
   const [filters, setFilters] = useState({
