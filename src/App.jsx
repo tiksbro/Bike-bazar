@@ -15,6 +15,7 @@ import DealerDetail from './pages/DealerDetail'
 import Services from './pages/Services'
 import Safety from './pages/Safety'
 import Guides from './pages/Guides'
+import TaxCalculator from './pages/TaxCalculator'
 import Login from './pages/Login'
 import Profile from './pages/Profile'
 import NotFound from './pages/NotFound'
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/services" element={<Services />} />
                 <Route path="/safety" element={<Safety />} />
                 <Route path="/guides" element={<Guides />} />
+                <Route path="/tax-calculator" element={<TaxCalculator />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin" element={<Admin />} />

@@ -20,9 +20,11 @@ function VehicleDetail() {
   const { slug } = useParams()
   const vehicle = getVehicleBySlug(slug)
 
+  useDocumentTitle(vehicle ? `${vehicle.brand} ${vehicle.model}` : 'Vehicle Not Found')
+
   if (!vehicle) {
     return (
-      <div className="max-w-[1440px] mx-auto px-8 py-24 text-center">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
         <h1 className="font-display font-bold text-2xl">Vehicle Not Found</h1>
         <p className="text-textmuted mt-2">This listing may have been removed or the link is incorrect.</p>
         <Link to="/vehicles" className="inline-flex mt-6 bg-accent hover:bg-accenthover transition text-white font-semibold text-sm rounded-btn px-5 py-3">
@@ -31,13 +33,12 @@ function VehicleDetail() {
       </div>
     )
   }
-  useDocumentTitle(vehicle ? `${vehicle.brand} ${vehicle.model}` : 'Vehicle Not Found')
 
   const priceBadge = priceBadgeStyles[vehicle.priceInsight]
   const similar = getSimilar(vehicle)
 
   return (
-    <div className="max-w-[1440px] mx-auto px-8 py-8">
+    <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <Link to="/vehicles" className="text-sm text-accent font-semibold hover:underline">← Back to results</Link>
 
       <div className="grid md:grid-cols-2 gap-8 mt-4">
@@ -60,8 +61,15 @@ function VehicleDetail() {
           </p>
 
           <div className="flex items-center gap-3 mt-3">
-            {vehicle.verifiedSeller && (
-              <span className="text-xs font-semibold text-success">✓ Verified Seller</span>
+                        {vehicle.verifiedSeller && (
+              <span className="flex items-center gap-1.5">
+                <span className="w-4 h-4 rounded-full bg-successbg flex items-center justify-center shrink-0">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#12805C" strokeWidth="3">
+                    <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                </span>
+                <span className="text-xs font-semibold text-success">Verified Seller</span>
+              </span>
             )}
             <span className="text-[11px] font-bold px-2 py-0.5 rounded-badge" style={{ color: priceBadge.color, background: priceBadge.bg }}>
               {priceBadge.label}
